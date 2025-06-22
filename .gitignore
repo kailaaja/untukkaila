@@ -1,32 +1,29 @@
-# Prerequisites
-*.d
+#include <iostream>
+#include <string>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+int main() {
+    std::string name;
+    
+    // Get the recipient's name
+    std::cout << "Enter the name of your precious person: ";
+    std::getline(std::cin, name);
+    
+    // Display heart art and personalized message
+    std::cout << "\n\n";
+    std::cout << "      ♥ ♥ ♥ ♥ ♥      \n";
+    std::cout << "    ♥           ♥    \n";
+    std::cout << "  ♥               ♥  \n";
+    std::cout << " ♥      " << name << "      ♥ \n";
+    std::cout << "  ♥               ♥  \n";
+    std::cout << "    ♥           ♥    \n";
+    std::cout << "      ♥ ♥ ♥ ♥ ♥      \n\n";
+    
+    std::cout << "To my dearest " << name << ",\n\n";
+    std::cout << "You make my world brighter with your presence.\n";
+    std::cout << "Every moment with you is a cherished memory.\n";
+    std::cout << "Thank you for being you - wonderful and precious!\n\n";
+    std::cout << "With all my love,\n";
+    std::cout << "[Your Name]\n";
+    
+    return 0;
+}
