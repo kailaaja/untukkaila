@@ -1,29 +1,251 @@
-#include <iostream>
-#include <string>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Someone Special ❤️</title>
+    <style>
+        body {
+            background-color: #111;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+        
+        #container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+        }
+        
+        .heart {
+            color: #ff3366;
+            font-size: 30px;
+            line-height: 1;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        
+        #message {
+            opacity: 0;
+            transition: opacity 2s;
+            text-align: left;
+            margin-top: 30px;
+        }
+        
+        .signature {
+            font-style: italic;
+            margin-top: 40px;
+            color: #ff85a2;
+        }
+        
+        button {
+            background-color: #ff3366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #ff1a53;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background-color: #222;
+            color: white;
+            width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ff85a2;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="form-container">
+            <h1>Create Your Heart Message ❤️</h1>
+            <div class="input-group">
+                <label for="recipient">Recipient's Name:</label>
+                <input type="text" id="recipient" placeholder="Someone special">
+            </div>
+            <div class="input-group">
+                <label for="sender">Your Name:</label>
+                <input type="text" id="sender" placeholder="Your name">
+            </div>
+            <button id="start-btn">Create Heart Message</button>
+        </div>
+        
+        <div id="animation-container" class="hidden">
+            <div id="heart-animation" class="heart"></div>
+            <div id="message"></div>
+            <button id="restart-btn">Create Another</button>
+        </div>
+    </div>
 
-int main() {
-    std::string name;
-    
-    // Get the recipient's name
-    std::cout << "Enter the name of your precious person: ";
-    std::getline(std::cin, name);
-    
-    // Display heart art and personalized message
-    std::cout << "\n\n";
-    std::cout << "      ♥ ♥ ♥ ♥ ♥      \n";
-    std::cout << "    ♥           ♥    \n";
-    std::cout << "  ♥               ♥  \n";
-    std::cout << " ♥      " << name << "      ♥ \n";
-    std::cout << "  ♥               ♥  \n";
-    std::cout << "    ♥           ♥    \n";
-    std::cout << "      ♥ ♥ ♥ ♥ ♥      \n\n";
-    
-    std::cout << "To my dearest " << name << ",\n\n";
-    std::cout << "You make my world brighter with your presence.\n";
-    std::cout << "Every moment with you is a cherished memory.\n";
-    std::cout << "Thank you for being you - wonderful and precious!\n\n";
-    std::cout << "With all my love,\n";
-    std::cout << "[Your Name]\n";
-    
-    return 0;
-}
+    <script>
+        const formContainer = document.getElementById('form-container');
+        const animationContainer = document.getElementById('animation-container');
+        const heartAnimation = document.getElementById('heart-animation');
+        const messageElement = document.getElementById('message');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const recipientInput = document.getElementById('recipient');
+        const senderInput = document.getElementById('sender');
+        
+        const heartFrames = [
+            '♥',
+            ' ♥ ♥ ',
+            '♥   ♥',
+            ' ♥ ♥ ',
+            '  ♥  '
+        ];
+        
+        const bigHeart = [
+            '     ♥     ',
+            '   ♥   ♥   ',
+            ' ♥       ♥ ',
+            '♥         ♥',
+            ' ♥       ♥ ',
+            '   ♥   ♥   ',
+            '     ♥     '
+        ];
+        
+        const finalHeart = [
+            '    ♥♥♥♥♥    ',
+            '  ♥       ♥  ',
+            ' ♥         ♥ ',
+            '♥    {name}    ♥',
+            ' ♥         ♥ ',
+            '  ♥       ♥  ',
+            '    ♥♥♥♥♥    '
+        ];
+        
+        const messageLines = [
+            "To my dearest {name},",
+            "",
+            "Every day with you is a beautiful adventure.",
+            "Your smile lights up my world like nothing else.",
+            "In your eyes, I've found my favorite place to be.",
+            "",
+            "You are:",
+            "- The reason I smile",
+            "- The thought that brightens my day",
+            "- The most precious person in my life",
+            "",
+            "With all my love,",
+            "{sender}"
+        ];
+        
+        function typeWriter(element, text, speed = 50, callback = null) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            
+            typing();
+        }
+        
+        function animateHeart(recipient, sender) {
+            formContainer.classList.add('hidden');
+            animationContainer.classList.remove('hidden');
+            
+            // Small heart animation
+            let frameIndex = 0;
+            const smallHeartInterval = setInterval(() => {
+                heartAnimation.textContent = heartFrames[frameIndex % heartFrames.length];
+                frameIndex++;
+                
+                if (frameIndex >= heartFrames.length * 3) {
+                    clearInterval(smallHeartInterval);
+                    growHeart(recipient, sender);
+                }
+            }, 100);
+        }
+        
+        function growHeart(recipient, sender) {
+            let frameIndex = 0;
+            const growHeartInterval = setInterval(() => {
+                heartAnimation.textContent = bigHeart[frameIndex];
+                frameIndex++;
+                
+                if (frameIndex >= bigHeart.length) {
+                    clearInterval(growHeartInterval);
+                    showFinalHeart(recipient, sender);
+                }
+            }, 150);
+        }
+        
+        function showFinalHeart(recipient, sender) {
+            const heartWithName = finalHeart.map(line => 
+                line.replace('{name}', recipient)
+            ).join('\n');
+            
+            heartAnimation.innerHTML = heartWithName.split('\n').map(line => 
+                line.replace(/♥/g, '<span style="color:#ff3366">♥</span>')
+            ).join('<br>');
+            
+            setTimeout(() => {
+                showMessage(recipient, sender);
+            }, 1000);
+        }
+        
+        function showMessage(recipient, sender) {
+            const fullMessage = messageLines.map(line => 
+                line.replace('{name}', recipient)
+                   .replace('{sender}', sender)
+            ).join('\n');
+            
+            messageElement.style.opacity = 1;
+            typeWriter(messageElement, fullMessage);
+        }
+        
+        startBtn.addEventListener('click', () => {
+            const recipient = recipientInput.value || 'Someone Special';
+            const sender = senderInput.value || 'Your Secret Admirer';
+            animateHeart(recipient, sender);
+        });
+        
+        restartBtn.addEventListener('click', () => {
+            animationContainer.classList.add('hidden');
+            formContainer.classList.remove('hidden');
+            messageElement.style.opacity = 0;
+            messageElement.innerHTML = '';
+            recipientInput.value = '';
+            senderInput.value = '';
+        });
+    </script>
+</body>
+</html>
